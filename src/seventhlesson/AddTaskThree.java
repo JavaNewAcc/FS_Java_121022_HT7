@@ -23,14 +23,29 @@ public class AddTaskThree {
 		System.out.println("Початковий масив: " + Arrays.toString(array));
 		System.out.println("Можливі перестановки:");
 
-		int indexOne = findFirstMoveElement(array);
-		System.out.println(indexOne);
-		int indexTwo = findSecondMoveElement(indexOne, array);
-		System.out.println(indexTwo);
+		int indexOne = 0;
+		int indexTwo = 1;
+		int counter = 1;
 
-		while (indexOne > indexTwo) {
-
+		while (indexOne < indexTwo) {
+			indexOne = findFirstMoveElement(array);
+			if (indexOne < 0) {
+				break;
+			}
+			indexTwo = findSecondMoveElement(indexOne, array);
+			if (indexTwo < 0) {
+				break;
+			}
+			if (indexOne < indexTwo) {
+				array = revisedArray(array, indexOne, indexTwo);
+			}
+			if (array.length - indexOne > 2) {
+				array = reverseElements(array, indexOne);
+			}
+			System.out.println(Arrays.toString(array));
+			counter++;
 		}
+		System.out.println("Кількість перестановок: " + (counter));
 	}
 
 	/**
@@ -82,9 +97,9 @@ public class AddTaskThree {
 
 	public static int[] reverseElements(int[] array, int index) {
 		int loopLength = (array.length - 1 - index) / 2;
-		for (int i = index + 1; i < array.length - loopLength; i++) {
-			int tempElement = array[i];
-			array[i] = array[array.length - i];
+		for (int i = 1; i <= loopLength; i++) {
+			int tempElement = array[index + i];
+			array[index + i] = array[array.length - i];
 			array[array.length - i] = tempElement;
 		}
 		return array;
